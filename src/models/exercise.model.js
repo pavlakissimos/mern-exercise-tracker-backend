@@ -8,7 +8,7 @@ const exerciseSchema = new Schema(
       type: Schema.Types.ObjectId,
       auto: true
     },
-    username: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     description: { type: String, required: true },
     duration: { type: Number, required: true },
     date: { type: Date, required: true }

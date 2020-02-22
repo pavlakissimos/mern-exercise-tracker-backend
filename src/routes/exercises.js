@@ -3,7 +3,7 @@ const Exercise = require("../models/exercise.model");
 
 router.route("/").get(async (_req, res) => {
   try {
-    const exercise = await Exercise.find();
+    const exercise = await Exercise.find().populate("user");
 
     res.json(exercise);
     return exercise;
@@ -15,10 +15,10 @@ router.route("/").get(async (_req, res) => {
 
 router.route("/add").post(async (req, res) => {
   try {
-    const { username, description } = req.body;
+    const { user, description } = req.body;
     const duration = Number(req.body.duration);
     const date = Date.parse(req.body.date);
-    const newExercise = new Exercise({ username, description, duration, date });
+    const newExercise = new Exercise({ description, duration, date, user });
     const savedExercise = await newExercise.save();
 
     res.json(savedExercise);
@@ -31,7 +31,7 @@ router.route("/add").post(async (req, res) => {
 
 router.route("/:id").get(async (req, res) => {
   try {
-    const exercise = await Exercise.findById(req.params.id);
+    const exercise = await Exercise.findById(req.params.id).populate("user");
 
     res.json(exercise);
     return exercise;
